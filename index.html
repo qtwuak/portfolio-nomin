@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nomin-erdene — Portfolio</title>
+  <meta name="description" content="Portfolio — Nomin-erdene, YZU freshman" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#0b0610; --card:#0f0a17; --text:#e9e6f5; --muted:#bdb7d6;
+      --accent:#b65cff; --accent-2:#7b45ff; --glass:rgba(255,255,255,0.04);
+      --glow:0 8px 40px rgba(120,60,255,0.12);
+    }
+    [data-theme='light'] {
+      --bg:#f5f5fa; --card:#ffffff; --text:#1b1b22; --muted:#4b4b5a;
+      --accent:#6b2bff; --accent-2:#2b6bff; --glass:rgba(10,10,10,0.04);
+      --glow:0 8px 40px rgba(100,60,255,0.08);
+    }
+
+    * {box-sizing:border-box;}
+    html,body {height:100%; margin:0; font-family:Inter,system-ui,sans-serif; color:var(--muted);}
+    body {
+      background:radial-gradient(1200px 600px at 10% 10%, rgba(123,69,255,0.12), transparent),
+      radial-gradient(900px 400px at 95% 90%, rgba(91,40,255,0.08), transparent),
+      var(--bg);
+      transition:background .4s ease, color .4s ease;
+    }
+
+    .container {max-width:1100px;margin:0 auto;padding:36px;}
+
+    header {
+      display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;
+    }
+    .brand {display:flex;align-items:center;gap:16px;}
+    .logo {
+      width:58px;height:58px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;box-shadow:var(--glow);
+      font-size:20px;
+    }
+    .title h1 {margin:0;font-size:22px;color:var(--text);}
+    .title p {margin:0;font-size:13px;color:var(--muted);}
+
+    .controls {display:flex;align-items:center;gap:10px;}
+    .btn {
+      background:var(--card);color:var(--muted);border:none;padding:8px 12px;
+      border-radius:10px;cursor:pointer;box-shadow:var(--glow);transition:.2s;
+    }
+    .btn:hover {opacity:0.8;}
+    .btn.primary {
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;
+    }
+
+    .theme-toggle {
+      background:var(--card);border:none;padding:8px 12px;border-radius:10px;
+      color:var(--accent);font-size:18px;cursor:pointer;box-shadow:var(--glow);
+      transition:.2s;
+    }
+    .theme-toggle:hover {transform:scale(1.1);}
+
+    main {display:grid;grid-template-columns:1fr 340px;gap:28px;}
+    @media(max-width:960px){main{grid-template-columns:1fr;}}
+
+    .profile {
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      padding:28px;border-radius:16px;box-shadow:var(--glow);
+    }
+    .hero {display:flex;gap:20px;align-items:center;}
+    .photo {
+      width:140px;height:140px;border-radius:18px;background:linear-gradient(180deg,#2a1751,#3b1e69);
+      display:flex;align-items:center;justify-content:center;color:white;font-size:22px;
+    }
+    .bio h2 {margin:0;color:var(--text);}
+    .bio p {margin:8px 0 0 0;color:var(--muted);}
+
+    .projects {margin-top:28px;}
+    .projects h3 {color:var(--text);margin:0 0 12px;}
+    .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+    .card {
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.05);
+      cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;
+    }
+    .card:hover {transform:translateY(-6px);box-shadow:0 18px 50px rgba(0,0,0,0.35);}
+    .card h4 {margin:0;color:var(--text);}
+    .card p {margin:6px 0 0;font-size:13px;color:var(--muted);}
+
+    aside .contact {
+      position:sticky;top:36px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      padding:18px;border-radius:14px;box-shadow:var(--glow);
+    }
+    .contact h4 {margin:0 0 8px;color:var(--text);}
+    .copy {display:flex;gap:8px;margin-top:8px;}
+
+    footer {
+      margin-top:32px;padding-top:18px;border-top:1px dashed rgba(255,255,255,0.05);
+      color:var(--muted);font-size:13px;text-align:center;
+    }
+
+    .modal {
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      background:rgba(0,0,0,0.6);z-index:999;opacity:0;pointer-events:none;transition:opacity .2s;
+    }
+    .modal.open {opacity:1;pointer-events:auto;}
+    .modal .sheet {
+      background:var(--card);padding:22px;border-radius:12px;max-width:700px;width:90%;color:var(--muted);
+    }
+    .modal img {width:100%;border-radius:8px;margin-top:12px;}
+    .close {float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;}
+
+    .orb {
+      position:fixed;right:40px;bottom:40px;width:140px;height:140px;border-radius:50%;
+      background:radial-gradient(circle at 40% 30%,rgba(255,255,255,0.08),transparent 30%),linear-gradient(135deg,var(--accent),var(--accent-2));
+      filter:blur(18px);opacity:.12;pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="orb"></div>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">NE</div>
+        <div class="title">
+          <h1>Nomin-erdene</h1>
+          <p>YZU freshman • Student Portfolio</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="theme-toggle" id="themeBtn" title="Toggle theme">🌙</button>
+        <a class="btn primary" id="githubBtn" href="#" target="_blank">View on GitHub</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="profile">
+        <div class="hero">
+          <div class="photo">NE</div>
+          <div class="bio">
+            <h2>Hello — I’m Nomin-erdene</h2>
+            <p>I’m a freshman at Yuan Ze University interested in AI, data science, and robotics. I love learning through projects and self-study courses.</p>
+          </div>
+        </div>
+
+        <div class="projects">
+          <h3>Certificates</h3>
+          <div class="grid" id="projectsGrid">
+            <div class="card" data-title="CS50: Introduction to Computer Science" data-img="certificates/nominerdenecs.png">
+              <h4>CS50 — Introduction to Computer Science</h4>
+              <p>HarvardX online certificate</p>
+            </div>
+            <div class="card" data-title="CS50: Python" data-img="certificates/certificatepy.png">
+              <h4>CS50 — Introduction to Computer Science with Python</h4>
+              <p>HarvardX online certificate</p>
+            </div>
+            <div class="card" data-title="FreeCodeCamp Responsive Web Design" data-img="certificates/FreeCodeResponsive.png">
+              <h4>FreeCodeCamp Responsive Web Design</h4>
+              <p>Front-end certification</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+
+      <aside>
+        <div class="contact">
+          <h4>Contact</h4>
+          <p id="emailText">nominerdeneganzo@gmail.com</p>
+          <div class="copy">
+            <button class="btn" id="copyEmail">Copy</button>
+            <a class="btn" href="mailto:nominerdeneganzo@gmail.com">Email Me</a>
+          </div>
+        </div>
+      </aside>
+    </main>
+    
+
+    <footer>
+      © <strong>Nomin-erdene</strong> • Portfolio built with HTML, CSS & JS 
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="sheet">
+      <button class="close" id="closeModal">✕</button>
+      <h3 id="modalTitle"></h3>
+      <img id="modalImg" src="" alt="">
+    </div>
+  </div>
+
+  <script>
+    const root=document.documentElement;
+    const themeBtn=document.getElementById('themeBtn');
+    const current=localStorage.getItem('theme')||'dark';
+    if(current==='light'){root.setAttribute('data-theme','light');themeBtn.textContent='☀️';}
+    themeBtn.addEventListener('click',()=>{
+      if(root.getAttribute('data-theme')==='light'){
+        root.setAttribute('data-theme','dark');themeBtn.textContent='🌙';
+        localStorage.setItem('theme','dark');
+      }else{
+        root.setAttribute('data-theme','light');themeBtn.textContent='☀️';
+        localStorage.setItem('theme','light');
+      }
+    });
+
+    // Modal image logic
+    const modal=document.getElementById('modal');
+    const modalTitle=document.getElementById('modalTitle');
+    const modalImg=document.getElementById('modalImg');
+    const closeModal=document.getElementById('closeModal');
+    document.querySelectorAll('.card[data-img]').forEach(card=>{
+      card.addEventListener('click',()=>{
+        modalTitle.textContent=card.dataset.title;
+        modalImg.src=card.dataset.img;
+        modal.classList.add('open');
+      });
+    });
+    closeModal.addEventListener('click',()=>modal.classList.remove('open'));
+    modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open');});
+
+    // Copy email
+    document.getElementById('copyEmail').addEventListener('click',async()=>{
+      const email=document.getElementById('emailText').textContent.trim();
+      try{await navigator.clipboard.writeText(email);alert('Email copied!');}
+      catch(e){prompt('Copy this email:',email);}
+    });
+
+    document.getElementById('githubBtn').href='https://github.com/YOUR_GITHUB_USERNAME/portfolio-nomin';
+  </script>
+</body>
+</html>
